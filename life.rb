@@ -64,6 +64,13 @@ describe "cell" do
       Cell.new(5,8).is_neighbor?(Cell.new(5,7)).should == true 
       Cell.new(5,8).is_neighbor?(Cell.new(6,7)).should == true 
     end
+
+    it "ignores cells outside neighborhood even if they are very close" do
+      # after implementing is_neighbor I can get back to the "live_neighbor"
+      # method which is currently faked.
+      
+      Cell.new(100,100).live_neighbors([ Cell.new(98, 100), Cell.new(99,99), Cell.new(101,101)]).should == 2
+    end
  end
 
 end
@@ -86,7 +93,7 @@ class Cell
     grid.inject({}) { |r,c| 
       r[c.x.to_s + "/" + c.y.to_s] = c
       r 
-    }.values.select { |x| x != self and x.x != 0 }.length
+    }.values.select { |x| x != self and self.is_neighbor?(x) }.length
   end
 
   def neighbors 
