@@ -110,12 +110,12 @@ describe "step forward logic" do
     # That's a common trick for overcoming blindness , esp. when mocking is
     # involved.
     #
-    s = stub('state')
+    n = stub('next state')
+    s = stub('state', :next_state => n)
     s.should_receive(:next_state).with(5000)
     c = stub('cell', :state_in => s, :living_neighbors => 5000)
 
-    state = c.state_in(grid)
-    state.next_state(c.living_neighbors(grid))
+    Life.next_state_of_cell(c, grid).should == n
   end
 end
 
@@ -193,6 +193,11 @@ class Life
     # alive).
     state = if is_live then live else dead end
     return state.next(n)
+  end
+
+  def self.next_state_of_cell(c, grid) 
+    state = c.state_in(grid)
+    state.next_state(c.living_neighbors(grid))
   end
 end
 
