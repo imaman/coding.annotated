@@ -22,6 +22,7 @@ end
 
 class Life
   def self.next_state(is_live, n)
+    # At this point, the rules are organized by the current state of the cell
     if is_live
       n == 2 || n == 3
     else
