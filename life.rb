@@ -71,8 +71,20 @@ describe "cell" do
       
       Cell.new(100,100).live_neighbors([ Cell.new(98, 100), Cell.new(99,99), Cell.new(101,101)]).should == 2
     end
- end
+  end
 
+  describe "computes next state" do
+    #now I feel the burden of combinatorial explosion. I have already tested
+    #the liveness logic, and the number of living neighbors logic. The
+    #next_state method should simply wire-up these two logics. I can't (at this
+    #point) think of a baby-step test - all I can think of is a test that checks
+    #the whole thing which means cross product of liveness and living_neighbors.
+    #the only plusible solution is to use mocking.
+    
+    #A-ha! If I can't find a (non-combinatorial) test for it then this behavior
+    #should probably move someplace else - it indicates that my Cell class is
+    #doing too much.
+  end
 end
 
 class Cell
