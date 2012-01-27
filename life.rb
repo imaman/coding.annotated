@@ -126,6 +126,14 @@ describe "step forward logic" do
     c.state_in([ Cell.new(15, 15), Cell.new(10,9)]).should == Life.dead
   end
 
+  # I want to check the dual case (cell is in the grid). However, the name of
+  # the example is not sympathetic of this - the previous example's name is too
+  # generic and covers both the "true" (live) and "false" (dead) cases. This is
+  # revelated when I try to name this example and get to an awkawrd name that
+  # specifies the input data but not the expected behavior.
+  it "finds the state of the cell in a given grid - when the cell is not there" do
+  end
+
 end
 
 
