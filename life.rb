@@ -136,6 +136,8 @@ describe "step forward logic" do
   # When this example will fail the RSpec error message will read:
   #   "Step forward logic treats a cell that is in the grid as live"
   it "treats a cell that is in the grid as live" do
+    c = Cell.new(10, 10)
+    c.state_in([ Cell.new(15, 15), Cell.new(10,9), Cell.new(10,10), Cell.new(8,8) ]).should == Life.live
   end
 
 end
@@ -148,6 +150,7 @@ class Cell
   end
 
   def state_in(grid)
+    return Life.live if grid.include? self
     Life.dead
   end
 
