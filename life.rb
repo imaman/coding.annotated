@@ -38,6 +38,12 @@ describe "cell" do
     it "returns living cells which are neighbors" do
       Cell.new(100,100).live_neighbors([ Cell.new(99,99), Cell.new(101,101)]).should == 2
     end
+    it "ignores itself" do
+      Cell.new(100,100).live_neighbors([ Cell.new(100,100), Cell.new(99,99), Cell.new(101,101)]).should == 2
+    end
+    it "ignores repeated cells" do
+      Cell.new(100,100).live_neighbors([ Cell.new(99, 99), Cell.new(99,99), Cell.new(101,101)]).should == 2
+    end
   end
 
 end
@@ -48,8 +54,15 @@ class Cell
     @y = y
   end
 
+  def hash
+    @x ^ @y
+  end
+
   def live_neighbors(grid)
-    grid.length
+    grid.inject({}) { |r,c| 
+      r[c.x.to_s + "/" + c.y.to_s] = c
+      r 
+    }.values.select { |x| x != self }.length
   end
 
   def neighbors 
