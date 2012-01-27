@@ -17,6 +17,11 @@ describe "pinging the target" do
 
     w = WatchDog.new("SOME-URL", http_client, policy)
     w.ping
+
+    # At this point the tests are green and things are looking good. However,
+    # there's some duplication between the two text examples - more than the
+    # amount I am comofrtable with. I am suspecting the design is not
+    # adequate/the steps are not babysteps.
   end
 end
 
