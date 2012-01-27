@@ -87,6 +87,39 @@ describe "cell" do
   end
 end
 
+describe "step forward logic" do
+  it "takes a grid a cell and a state and produces the next state for that cell" do
+    c1 = Cell.new(0,0)
+    c2 = Cell.new(0,0)
+    c3 = Cell.new(0,0)
+    grid = [ c1, c2, c3 ];
+    state = Life.live
+
+    # I realize that I probably want the Life class to be non-static.
+    # Life.next_state() is not a good method - it takes a boolean where I want
+    # to use the "Dead/Live" terminology. So, I come up with new function:
+    # step() - take a cell and grid. Determines current state by checking
+    # existence of the cell inside the grid. Then computes number of neighbors
+    # and passes it to the state.
+    #
+
+
+    # This one took a lot of time. I couldn't wrap my head around it.
+    # Eventually, I decided the best way would be to implement the impl. in the
+    # test! get the test to work and then move it to the application code.
+    # That's a common trick for overcoming blindness , esp. when mocking is
+    # involved.
+    #
+    s = stub('state')
+    s.should_receive(:next_state).with(5000)
+    c = stub('cell', :state_in => s, :living_neighbors => 5000)
+
+    state = c.state_in(grid)
+    state.next_state(c.living_neighbors(grid))
+  end
+end
+
+
 class Cell
   def initialize(x,y)
     @x = x
