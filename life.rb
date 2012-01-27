@@ -126,6 +126,10 @@ class Cell
     @y = y
   end
 
+  def state_in(grid)
+    raise "not implemented yet!" # this method was added and stubbed. I'm a adding a place holder to make sure I don't forget to impl. it.
+  end
+
   def is_neighbor?(other) 
     self != other and (other.x - x).abs <= 1 and (other.y - y).abs <= 1
   end
