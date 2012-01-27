@@ -121,7 +121,7 @@ describe "step forward logic" do
   # This is not necessarily the best place for this test,it may later move.
   # OTOH, it localized with the other code that relates to the same feature, so
   # maybe I will keep it here after all.
-  it "finds the state of the cell in a given grid" do
+  it "treats a cell that is not in the grid as dead" do
     c = Cell.new(10, 10)
     c.state_in([ Cell.new(15, 15), Cell.new(10,9)]).should == Life.dead
   end
@@ -131,7 +131,11 @@ describe "step forward logic" do
   # generic and covers both the "true" (live) and "false" (dead) cases. This is
   # revelated when I try to name this example and get to an awkawrd name that
   # specifies the input data but not the expected behavior.
-  it "finds the state of the cell in a given grid - when the cell is not there" do
+
+  # Solved by giving a more abstract name (describes the behavior much better).
+  # When this example will fail the RSpec error message will read:
+  #   "Step forward logic treats a cell that is in the grid as live"
+  it "treats a cell that is in the grid as live" do
   end
 
 end
