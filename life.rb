@@ -82,7 +82,7 @@ class Cell
   end
 
   def is_neighbor?(other) 
-    (other.x - x).abs <= 1 and (other.y - y).abs <= 1
+    self != other and (other.x - x).abs <= 1 and (other.y - y).abs <= 1
   end
 
   def hash
@@ -93,7 +93,7 @@ class Cell
     grid.inject({}) { |r,c| 
       r[c.x.to_s + "/" + c.y.to_s] = c
       r 
-    }.values.select { |x| x != self and self.is_neighbor?(x) }.length
+    }.values.select { |x| is_neighbor?(x) }.length
   end
 
   def neighbors 
