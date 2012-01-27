@@ -44,7 +44,27 @@ describe "cell" do
     it "ignores repeated cells" do
       Cell.new(100,100).live_neighbors([ Cell.new(99, 99), Cell.new(99,99), Cell.new(101,101)]).should == 2
     end
-  end
+    it "ignores cells outside the neighborhood" do
+      # I could have done instead of this example the converse:
+      # "treats only cells inside the neighborhood" but that would have
+      # forced me to roll out the full impl. It is usaually better
+      # (due to baby-stepping) to state the restrictions, boundary conditions,
+      # etc. first, and only then turn to the happy path. The implementation may
+      # surface some additional edge cases so you'll have to add tests for them
+      # too. Bottom line: sad, happy, sad
+      Cell.new(100,100).live_neighbors([ Cell.new(0, 0), Cell.new(99,99), Cell.new(101,101)]).should == 2
+    end
+
+    it "knows if another cell and me are neighbors" do
+      # In order to implement the above example "ignores cells outside the
+      # neighborhood" I realized I need an "is_neightbor?" method. I faked
+      # the impl. to get the above example to pass, and now I'm TDDing the
+      # is_neighbor? method.
+      Cell.new(5,8).is_neighbor?(Cell.new(1,2)).should == false
+      Cell.new(5,8).is_neighbor?(Cell.new(5,7)).should == true 
+      Cell.new(5,8).is_neighbor?(Cell.new(6,7)).should == true 
+    end
+ end
 
 end
 
@@ -52,6 +72,10 @@ class Cell
   def initialize(x,y)
     @x = x
     @y = y
+  end
+
+  def is_neighbor?(other) 
+    (other.x - x).abs <= 1 and (other.y - y).abs <= 1
   end
 
   def hash
@@ -62,7 +86,7 @@ class Cell
     grid.inject({}) { |r,c| 
       r[c.x.to_s + "/" + c.y.to_s] = c
       r 
-    }.values.select { |x| x != self }.length
+    }.values.select { |x| x != self and x.x != 0 }.length
   end
 
   def neighbors 
