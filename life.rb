@@ -117,6 +117,15 @@ describe "step forward logic" do
 
     Life.next_state_of_cell(c, grid).should == n
   end
+
+  # This is not necessarily the best place for this test,it may later move.
+  # OTOH, it localized with the other code that relates to the same feature, so
+  # maybe I will keep it here after all.
+  it "finds the state of the cell in a given grid" do
+    c = Cell.new(10, 10)
+    c.state_in([ Cell.new(15, 15), Cell.new(10,9)]).should == Life.dead
+  end
+
 end
 
 
