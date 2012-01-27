@@ -136,7 +136,7 @@ class Cell
   end
 
   def state_in(grid)
-    raise "not implemented yet!" # this method was added and stubbed. I'm a adding a place holder to make sure I don't forget to impl. it.
+    Life.dead
   end
 
   def is_neighbor?(other) 
