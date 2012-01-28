@@ -23,6 +23,11 @@ describe "inspection of html" do
   end
 end
 
+# At this point I need to decide if I want to further evolve the Checker class
+# (add more tests to it). My intuition is to start expanding to the rest of the
+# system. The core logic has a place (Checker) and we have a resonable interface
+# for this object. It is now time to tie the things together.
+
 class Checker
   # I don't like this attr_accessor too much. I'd rather pass it as a parameter
   # to the ctor (an 'options' hash or something). However, this may be
