@@ -54,9 +54,17 @@ describe "inspection of html" do
     # fully pass, even though we didn't move its code to use the new API. That's
     # because it is a happy test so it is neutral to checks that are disabled.
     #
+    
+
     c = Checker.new
     c.min_length = 0
-    c.check("NEW DESIGN STARTS HERE").should == true
+    # We are now Green despite the fact the porting was not correct. This was
+    # not a surprise - the last failure was not the failure that we wanted. So
+    # we managed to get to Green without really solving the underlying problem.
+    # In such cases, the best thing to do is to intentionally change the test
+    # into a sad one. This will surface the problem of the the incorrect
+    # porting.
+    c.check("illegal input").should == false
   end
 end
 
