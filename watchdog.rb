@@ -24,6 +24,9 @@ describe "inspection of html" do
 end
 
 class Checker
+  # I don't like this attr_accessor too much. I'd rather pass it as a parameter
+  # to the ctor (an 'options' hash or something). However, this may be
+  # over-verbosity for the boolean flags so I'm keeping it as-is for now.
   attr_accessor :min_length
 
   def initialize(flags)
