@@ -43,7 +43,10 @@ class Checker
   # are creating a Checker object via Cherker.new() passing no flags to the
   # ctor. My intuition tells me that I want to stay in refactoring mode (and not
   # in test-porting which is somewhat risky)
-  def initialize(flags = [ :check_length ])
+  
+
+  # We no longer needs flags to have a default value. Remove it.
+  def initialize(flags)
     @min_length = 1000
 
     # I set up an explicit precond. check at the app. code to verify that one of
