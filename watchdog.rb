@@ -1,14 +1,14 @@
 describe "inspection of html" do
   it "fails if size is too small" do
-    c = Checker.new
+    c = Checker.new [ :check_length ]
     (c.check "aa").should == false
   end
   it "succeeds if size is above threshold" do
-    c = Checker.new
+    c = Checker.new [ :check_length ]
     c.check("a"*1000).should == true 
   end
   it "allows the size threshold to be changed" do
-    c = Checker.new
+    c = Checker.new [ :check_length ]
     c.min_length = 1001
     c.check("a"*1000).should == false
   end
