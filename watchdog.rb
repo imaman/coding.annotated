@@ -12,12 +12,41 @@ describe "inspection of html" do
     c.min_length = 1001
     c.check("a"*1000).should == false
   end
+
   it "fails if html does not contain NEW DESIGN STARTS HERE" do
     c = Checker.new
     c.min_length = 0
     c.check_content!
+    # I chose almost the string that I'm searching for but 
+    # I omitted the last 'E'. This is needed to make sure that even content that
+    # are quite close to the string that I'm interested in will not be
+    # addmitted.
     c.check("NEW DESIGN STARTS HER").should == false
   end
+  # I now want to refactor the check_content! method into a bag-of-flags
+  # that will be passed to the constructor, as in: Checker.new [:check_content]
+  # How do I do that?
+  # If start working on the happy path ('succeeds if html contains...') I will
+  # get green even if my refacotring is buggy: suppose I mis-implement the
+  # bag-of-flags logic and that it does *not* activates content checking. The
+  # only check that will be applied is the min_length but this check is
+  # configured with 0 which effectively disables it. Thus, a green result after
+  # the refactoring will be meaningless.
+  #
+  # Of course - I can try to refactor all test methods at once buts that's a
+  # giant leap which is not always fesible and is largely discouraged. 
+  #
+  # The solution: 
+  # Step 1 - change the Sad test's code (above "fails if html does not") - to
+  # use the new API. The test will go Red b/c the check will be of so the result
+  # returned by the checker will be positive.
+  #
+  # Step 2 - Make the Sad test pass - implement the new API (in parallel to the
+  # old API). Now all tests should be green.
+  #
+  # Step 3 - Remove the old API. This will break the happy test.
+  #
+  # Step 4 - Port the happy test to use the new API.
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
     c = Checker.new
     c.min_length = 0
