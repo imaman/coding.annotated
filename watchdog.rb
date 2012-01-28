@@ -28,8 +28,18 @@ end
 class Checker
   attr_accessor :min_length
 
+  # We are now green. I want to get rid of the c.min_length = 0 calls (in the
+  # test code) as this is used as a non-intention-revealing way for disabling
+  # the minimum-length check. We can do that by introducing a
+  # disable_length_check flag. This is not a very good name as we want to avoid
+  # negativeness in names of variables (sooner or later you'll have the double
+  # negative !disable_length_check) but this is a stopgap measure which I hope
+  # to replace soon.
   def initialize(flags = [])
     @min_length = 1000
+    if flags.include? :disable_length_check
+      @min_length = 0
+    end
     @flags = flags
   end
 
