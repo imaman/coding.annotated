@@ -69,7 +69,13 @@ describe "inspection of html" do
     # porting.
     
     # We changed the test to sad one. We now need to make it a happy test again.
-    c.check("illegal input").should == true 
+    
+    # We are now Red with this message: 
+    # "check("illegal input").should == true. expected: true, got: false".
+    # This indicates correct behavior - the input should be rejected and it
+    # should return false. We therefore only need to restore the old input to
+    # get back to green.
+    c.check("NEW DESIGN STARTS HERE").should == true 
   end
 end
 
