@@ -58,9 +58,11 @@ class Checker
     if !flags.include? :check_length 
       flags += [ :disable_length_check ]
     end
-    if !flags.include? :disable_length_check and !flags.include? :check_length
-      raise "Either :disable_length_check or :check_length must be specified"
-    end
+
+    # This is check is now mute due to the if above.
+    #if !flags.include? :disable_length_check and !flags.include? :check_length
+    #  raise "Either :disable_length_check or :check_length must be specified"
+    #end
 
     if flags.include? :disable_length_check
       @min_length = 0
