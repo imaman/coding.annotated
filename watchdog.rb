@@ -33,7 +33,17 @@ class Checker
   # negativeness in names of variables (sooner or later you'll have the double
   # negative !disable_length_check) but this is a stopgap measure which I hope
   # to replace soon.
-  def initialize(flags = [])
+  
+
+  # After introducing a disable_length_check flag (instead of setting min_length
+  # to zero) my goal now is to use the oppositve flag (:check_length) which has
+  # a positive name and thus reduces confusion (double negative, consitent
+  # semantics, etc.). We start by intorducing this flag as a defualt, although
+  # no one uses it yet. I chose this path becuase all of the first three tests
+  # are creating a Checker object via Cherker.new() passing no flags to the
+  # ctor. My intuition tells me that I want to stay in refactoring mode (and not
+  # in test-porting which is somewhat risky)
+  def initialize(flags = [ :check_length ])
     @min_length = 1000
     if flags.include? :disable_length_check
       @min_length = 0
