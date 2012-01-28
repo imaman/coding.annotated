@@ -14,9 +14,8 @@ describe "inspection of html" do
   end
 
   it "fails if html does not contain NEW DESIGN STARTS HERE" do
-    c = Checker.new
+    c = Checker.new [ :check_content ]
     c.min_length = 0
-    c.check_content!
     # I chose almost the string that I'm searching for but 
     # I omitted the last 'E'. This is needed to make sure that even content that
     # are quite close to the string that I'm interested in will not be
