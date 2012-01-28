@@ -71,7 +71,7 @@ class Checker
   # further to making the test Green.
   def initialize(flags = [])
     @min_length = 1000
-    @check_content = false
+    @check_content = flags.include? :check_content
   end
 
   def check_content!
