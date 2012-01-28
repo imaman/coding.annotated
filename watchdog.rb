@@ -61,10 +61,6 @@ class Checker
     # flags and the second one checks that the old one is present (note that the
     # old flag is no longer used on the client side).
     if !flags.include? :check_length 
-      flags += [ :disable_length_check ]
-    end
-
-    if flags.include? :disable_length_check
       @min_length = 0
     end
 
