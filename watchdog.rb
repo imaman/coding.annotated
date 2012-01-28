@@ -45,6 +45,13 @@ class Checker
   # in test-porting which is somewhat risky)
   def initialize(flags = [ :check_length ])
     @min_length = 1000
+
+    # I set up an explicit precond. check at the app. code to verify that one of
+    # the flags is used. This will help me get rid of the old API.
+    if !flags.include? :disable_length_check and !flags.include? check_length
+      raise "Either :disable_length_check or :check_length must be specified"
+    end
+
     if flags.include? :disable_length_check
       @min_length = 0
     end
