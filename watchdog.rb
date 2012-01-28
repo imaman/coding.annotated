@@ -56,7 +56,10 @@ describe "inspection of html" do
     #
     
 
-    c = Checker.new
+    # we now have a sad test that is not failing - it expects false but the code
+    # returns true. That's because the API porting was incomplete (the test is
+    # effectively disabled). Let's eanble it:
+    c = Checker.new [ :check_content ]
     c.min_length = 0
     # We are now Green despite the fact the porting was not correct. This was
     # not a surprise - the last failure was not the failure that we wanted. So
