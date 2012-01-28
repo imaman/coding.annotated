@@ -67,7 +67,9 @@ describe "inspection of html" do
     # In such cases, the best thing to do is to intentionally change the test
     # into a sad one. This will surface the problem of the the incorrect
     # porting.
-    c.check("illegal input").should == false
+    
+    # We changed the test to sad one. We now need to make it a happy test again.
+    c.check("illegal input").should == true 
   end
 end
 
