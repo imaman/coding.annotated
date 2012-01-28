@@ -26,48 +26,11 @@ end
 class Checker
   attr_accessor :min_length
 
-  # We are now green. I want to get rid of the c.min_length = 0 calls (in the
-  # test code) as this is used as a non-intention-revealing way for disabling
-  # the minimum-length check. We can do that by introducing a
-  # disable_length_check flag. This is not a very good name as we want to avoid
-  # negativeness in names of variables (sooner or later you'll have the double
-  # negative !disable_length_check) but this is a stopgap measure which I hope
-  # to replace soon.
-  
-
-  # After introducing a disable_length_check flag (instead of setting min_length
-  # to zero) my goal now is to use the oppositve flag (:check_length) which has
-  # a positive name and thus reduces confusion (double negative, consitent
-  # semantics, etc.). We start by intorducing this flag as a defualt, although
-  # no one uses it yet. I chose this path becuase all of the first three tests
-  # are creating a Checker object via Cherker.new() passing no flags to the
-  # ctor. My intuition tells me that I want to stay in refactoring mode (and not
-  # in test-porting which is somewhat risky)
-  
-
-  # We no longer needs flags to have a default value. Remove it.
   def initialize(flags)
     @min_length = 1000
-
-    # I set up an explicit precond. check at the app. code to verify that one of
-    # the flags is used. This will help me get rid of the old API.
-    
-    # At this point all tests are green, but our new flag has not been used yet
-    # (other than the following precond.). It has no semantics attached to it.
-    # Let's give it some semantics by deriving disable_length_check from the
-    # unpresence of :check_length. Admittedly, this has no effect at the moment becuase 
-    # all the place where :check_length is not specified already have a
-    # :disable_length_check. Yet it is a step in the right direction.
-    
-
-    # We can now consolidate the two if-s. The first one add the old flag to
-    # flags and the second one checks that the old one is present (note that the
-    # old flag is no longer used on the client side).
-    if !flags.include? :check_length 
+   if !flags.include? :check_length 
       @min_length = 0
     end
-
-
     @flags = flags
   end
 
