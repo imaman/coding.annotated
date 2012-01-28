@@ -19,7 +19,7 @@ describe "inspection of html" do
     c.check("NEW DESIGN STARTS HER").should == false
   end
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
-    c = Checker.new [ :check_content ]
+    c = Checker.new [ :check_content, :disable_length_check ]
     c.check("NEW DESIGN STARTS HERE").should == true 
   end
 end
