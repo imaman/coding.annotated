@@ -47,9 +47,15 @@ describe "inspection of html" do
   #
   # Step 4 - Port the happy test to use the new API.
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
+    # we are now in a subtle position: this test is red due to undefined method
+    # (we just removed check_content!). Ideally we want it now to fail on the
+    # assertion. this is not so easy to achieve. If we just remove the
+    # c.check_content! line (causing the undefined method problem) the test will
+    # fully pass, even though we didn't move its code to use the new API. That's
+    # because it is a happy test so it is neutral to checks that are disabled.
+    #
     c = Checker.new
     c.min_length = 0
-    c.check_content!
     c.check("NEW DESIGN STARTS HERE").should == true
   end
 end
