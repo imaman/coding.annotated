@@ -58,7 +58,18 @@ class Checker
   attr_accessor :min_length
   
 
-  def initialize
+  # The sad test is broken but for the wrong reason:
+  # Failure/Error: c =
+  # Checker.new [ :check_content ]
+  #      ArgumentError:
+  #             wrong number of arguments (1 for 0)
+  #
+  # We want it to fail due to wrong answer (true instead false).
+  # To do that we need to add the new param to the ctor. We need to make this an
+  # optional param (otherwise, all other tests will break). Once we do that
+  # we'll get the error message that we want, which will allow us to move
+  # further to making the test Green.
+  def initialize(flags = [])
     @min_length = 1000
     @check_content = false
   end
