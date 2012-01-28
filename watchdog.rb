@@ -74,9 +74,9 @@ class Checker
     @check_content = flags.include? :check_content
   end
 
-  def check_content!
-    @check_content = true
-  end
+  # Step 3: we now want to get rid of the old API. Simply by removing the
+  # check_content! method. this will give us the failure that we need: 
+  # 'undefined method `check_content!' for ...' in the happy test
 
   def check(html)
     html.length >= min_length && (!@check_content || html.include?("NEW DESIGN STARTS HERE"))
