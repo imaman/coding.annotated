@@ -1,4 +1,4 @@
-describe "pinging the target" do
+describe "WtachDog" do
   it "fetches content from target" do
     resp = stub("response")
     http_client = stub("http_client")
@@ -22,6 +22,32 @@ describe "pinging the target" do
     # there's some duplication between the two text examples - more than the
     # amount I am comofrtable with. I am suspecting the design is not
     # adequate/the steps are not babysteps.
+  end
+end
+
+describe "inspection of repsonse" do
+  it "yells if response is too small" do
+    p = Policy.new
+    p.min_length = 10;
+    p.inspect("123456789").should == false
+  end
+
+  it "yells if response does not contain new design starts here" do
+    p = Policy.new()
+    p.min_length = 0
+    p.inspect("new design").should == false
+  end
+end
+
+class Policy
+  attr_accessor :min_length
+
+  def initialize() 
+    @min_length = 20000
+  end
+
+  def inspect(html)
+    html.length > @min_length && html.include?("NEW DESIGN STARTS HERE")
   end
 end
 
