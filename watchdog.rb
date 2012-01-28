@@ -30,10 +30,10 @@ class Checker
 
   def initialize(flags = [])
     @min_length = 1000
-    @check_content = flags.include? :check_content
+    @flags = flags
   end
 
   def check(html)
-    html.length >= min_length && (!@check_content || html.include?("NEW DESIGN STARTS HERE"))
+    html.length >= min_length && (!(@flags.include? :check_content) || html.include?("NEW DESIGN STARTS HERE"))
   end
 end
