@@ -48,6 +48,16 @@ class Checker
 
     # I set up an explicit precond. check at the app. code to verify that one of
     # the flags is used. This will help me get rid of the old API.
+    
+    # At this point all tests are green, but our new flag has not been used yet
+    # (other than the following precond.). It has no semantics attached to it.
+    # Let's give it some semantics by deriving disable_length_check from the
+    # unpresence of :check_length. Admittedly, this has no effect at the moment becuase 
+    # all the place where :check_length is not specified already have a
+    # :disable_length_check. Yet it is a step in the right direction.
+    if !flags.include? :check_length 
+      flags += [ :disable_length_check ]
+    end
     if !flags.include? :disable_length_check and !flags.include? :check_length
       raise "Either :disable_length_check or :check_length must be specified"
     end
