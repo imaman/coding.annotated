@@ -15,7 +15,6 @@ describe "inspection of html" do
 
   it "fails if html does not contain NEW DESIGN STARTS HERE" do
     c = Checker.new [ :check_content ]
-    c.min_length = 0
     c.check("NEW DESIGN STARTS HER").should == false
   end
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
