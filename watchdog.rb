@@ -55,13 +55,20 @@ class Checker
     # unpresence of :check_length. Admittedly, this has no effect at the moment becuase 
     # all the place where :check_length is not specified already have a
     # :disable_length_check. Yet it is a step in the right direction.
+    
+
+    # We can now consolidate the two if-s. The first one add the old flag to
+    # flags and the second one checks that the old one is present (note that the
+    # old flag is no longer used on the client side).
     if !flags.include? :check_length 
       flags += [ :disable_length_check ]
     end
 
-   if flags.include? :disable_length_check
+    if flags.include? :disable_length_check
       @min_length = 0
     end
+
+
     @flags = flags
   end
 
