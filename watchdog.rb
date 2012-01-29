@@ -32,10 +32,12 @@ end
 
 describe "website babysitter" do
   it "fetches html content and passes it to the checker" do
-    checker = stub("checker")
-    http_clinet = stub("http_client")
-    babysitter = Babysitter.new(checker, http_client)
-    babysitter.run
+    html = double("html")
+    checker = double("checker")
+    checker.stub(:check).with(html).and_return(true)
+    http_client = double("http_client", :fetch => html)
+    #babysitter = Babysitter.new(checker, http_client)
+    #babysitter.run
 
     # Two issues on my mind:
     # (a) what are the method names that should be invoked (I need these names
@@ -46,7 +48,10 @@ describe "website babysitter" do
     # (b) Should I add call to the "Aleter" (temp. name) that will fire an
     # e-mail if the check failed? I decided to defer this to a later test. This
     # test will focus on fetching html and checking it.
+    
 
+    url = "SOME-URL"
+    checker.check(http_client.fetch(url))
    end
 end
 
