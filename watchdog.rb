@@ -31,6 +31,34 @@ end
 # -> Decided to make the system evolve.
 
 describe "website babysitter" do
+  # As I said below, I noticed that I do not verify that the URL is passed to the
+  # HTTP client, hence this new test. The problem is that I discovered that
+  # while a borken test is present (the new end-to-end test introduced due to
+  # the failure of tests to capture the issue of :ok/:bad not hanlded by
+  # babysitter class. On top of that this test is already working. I am adding
+  # it after the fact. One may think I can break the code before writing this
+  # test and then write the test and make it green by fixing the delibrate
+  # breakage. Sadly this will not work - we speculate that this breakage is not
+  # detected by any test so the only breakage we can introduce that will trigger
+  # a (Red) response is one that has massive damage and breaks other tests. This
+  # means that I will be coding with multiple broken tests - not a good idea.
+  #
+  # I'm therefore choosing the second option - make a note to myself that the
+  # end-to-end test is broken. I will introduce a break in the test (changing
+  # the assertion). This will lead me to *two* breaking tests which will verify
+  # that this test actually run. I will specifically make sure that the error
+  # message is waht I need it be. Once this is happens, I will restore the
+  # assertion to its correct value.
+ it "passes the URL to the fetcher" do
+    html = double("html")
+    checker = double("checker").as_null_object
+    http_client = double("http_client")
+    http_client.stub(:fetch).with("SOME-URL__________not_the_correct_value").and_return("")
+
+    babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
+    babysitter.run "SOME-URL"
+  end
+
   it "fetches html content and passes it to the checker" do
     html = double("html")
     checker = double("checker")
@@ -82,6 +110,22 @@ describe "website babysitter" do
   # value. Here we use true to say "passed the check" - which makes sense (b/c
   # we also associate truth with "good"). The solution is to use dedicated
   # values: ":ok", ":bad"
+end
+
+#Since we didn't break even when the checker changed its response to :ok/:bad,
+#we add a new high-level test that simply verifies that the different pieces
+#work together.
+
+#while doing so I realized that I realized that I do not verify the URL passed
+#to .run() is actually propagated to checker. 
+describe "babysitter system" do
+  it "works end to end" do
+    alerter = double("alerter").should_receive(:alert)
+    http_client = double("http_client", :fetch => "broken html")
+
+    babysitter = Babysitter.new Checker.new [ :min_length ], http_client, alerter
+    babysitter.run "SOME-URL"
+  end
 end
 
 class Babysitter
