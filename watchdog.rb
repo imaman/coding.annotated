@@ -36,7 +36,18 @@ describe "website babysitter" do
     http_clinet = stub("http_client")
     babysitter = Babysitter.new(checker, http_client)
     babysitter.run
-  end
+
+    # Two issues on my mind:
+    # (a) what are the method names that should be invoked (I need these names
+    # for stubbing, and for setting expectation. I don't remember these names. I
+    # can overcome that by coding the impl. here and extract it to the app. code
+    # later.
+    #
+    # (b) Should I add call to the "Aleter" (temp. name) that will fire an
+    # e-mail if the check failed? I decided to defer this to a later test. This
+    # test will focus on fetching html and checking it.
+
+   end
 end
 
 class Checker
