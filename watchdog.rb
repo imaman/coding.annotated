@@ -65,10 +65,11 @@ class Babysitter
   def initialize(checker, http_client, alerter)
     @checker = checker
     @http_client = http_client
+    @alerter = alerter
   end
 
   def run(url)
-    @checker.check(@http_client.fetch(url))
+    @alerter.alert(@checker.check(@http_client.fetch(url)))
   end
 end
 
