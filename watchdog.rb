@@ -109,7 +109,7 @@ class Checker
       return false
     end
     if (@flags.include? :check_content) && !html.include?("NEW DESIGN STARTS HERE")
-      return false
+      return :bad
     end
     return :ok
   end
