@@ -141,7 +141,8 @@ class Babysitter
   end
 
   def run(url)
-    @alerter.alert if !@checker.check(@http_client.fetch(url))
+    # changing the code such that it works with symbols (rather than booleans)
+    @alerter.alert if @checker.check(@http_client.fetch(url)) == :bad
   end
 end
 
