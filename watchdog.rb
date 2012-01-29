@@ -51,6 +51,12 @@ describe "website babysitter" do
   # simple object, I prefer to put this responsibility in his hands.
   it "fires notification if check failed" do
     checker = double("checker")
+
+    # I managed to change the result returned by the checker to the more
+    # descriptive :ok/:bad. Sadly, the tests are Green, despite the fact that
+    # in the two tests below we we stub the check method such that it returns a boolean and not a :ok/:bad symbol.
+    # This essentially means that a bug in the babysitter (treats the result of
+    # checker as boolean and not a symbol) is not detected by our tests.
     checker.stub(:check).and_return(false)
     http_client = double("http_client").as_null_object
     alerter = double("alerter")
