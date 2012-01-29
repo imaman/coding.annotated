@@ -59,6 +59,15 @@ describe "website babysitter" do
     babysitter = Babysitter.new checker, http_client, alerter
     babysitter.run "SOME-URL"
   end
+  it "does not fire a notification if check succeeds" do
+    checker = double("checker")
+    checker.stub(:check).and_return(false)
+    http_client = double("http_client").as_null_object
+    alerter = double("alerter")
+
+    babysitter = Babysitter.new checker, http_client, double("alerter")
+    babysitter.run "SOME-URL"
+  end
 end
 
 class Babysitter
