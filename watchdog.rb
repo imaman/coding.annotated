@@ -90,7 +90,9 @@ describe "website babysitter" do
     # in the two tests below we we stub the check method such that it returns a boolean and not a :ok/:bad symbol.
     # This essentially means that a bug in the babysitter (treats the result of
     # checker as boolean and not a symbol) is not detected by our tests.
-    checker.stub(:check).and_return(false)
+    
+    # Change the stubbing from boolean to symbol (false -> :bad)
+    checker.stub(:check).and_return(:bad)
     http_client = double("http_client").as_null_object
     alerter = double("alerter")
     alerter.should_receive(:alert)
@@ -100,7 +102,8 @@ describe "website babysitter" do
   end
   it "does not fire a notification if check succeeds" do
     checker = double("checker")
-    checker.stub(:check).and_return(true)
+    # Change the stubbing from boolean to symbol (true -> :ok)
+    checker.stub(:check).and_return(:ok)
     http_client = double("http_client").as_null_object
     alerter = double("alerter")
 
@@ -125,10 +128,14 @@ end
 #to .run() is actually propagated to checker. 
 describe "babysitter system" do
   it "works end to end" do
-    alerter = double("alerter").should_receive(:alert)
+    # all sort of problems in the previous state of the test :( 
+    # need to fix it now!
+
+    alerter = double("alerter")
+    alerter.should_receive(:alert)
     http_client = double("http_client", :fetch => "broken html")
 
-    babysitter = Babysitter.new Checker.new [ :min_length ], http_client, alerter
+    babysitter = Babysitter.new(Checker.new([ :check_length ]), http_client, alerter)
     babysitter.run "SOME-URL"
   end
 end
@@ -142,7 +149,9 @@ class Babysitter
 
   def run(url)
     # changing the code such that it works with symbols (rather than booleans)
-    @alerter.alert if @checker.check(@http_client.fetch(url)) == :bad
+    if @checker.check(@http_client.fetch(url)) == :bad
+      @alerter.alert
+    end
   end
 end
 
