@@ -61,7 +61,7 @@ describe "website babysitter" do
   end
   it "does not fire a notification if check succeeds" do
     checker = double("checker")
-    checker.stub(:check).and_return(false)
+    checker.stub(:check).and_return(true)
     http_client = double("http_client").as_null_object
     alerter = double("alerter")
 
@@ -78,7 +78,7 @@ class Babysitter
   end
 
   def run(url)
-    @alerter.alert(@checker.check(@http_client.fetch(url)))
+    @alerter.alert if !@checker.check(@http_client.fetch(url))
   end
 end
 
