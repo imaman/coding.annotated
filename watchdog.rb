@@ -106,7 +106,7 @@ class Checker
 
   def check(html)
     if html.length < min_length 
-      return false
+      return :bad
     end
     if (@flags.include? :check_content) && !html.include?("NEW DESIGN STARTS HERE")
       return :bad
