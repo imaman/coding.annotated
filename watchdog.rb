@@ -149,7 +149,10 @@ class Babysitter
 
   def run(url)
     # changing the code such that it works with symbols (rather than booleans)
-    if @checker.check(@http_client.fetch(url)) == :bad
+    
+    # intentionally breaking the code - I want to see the end-to-end test
+    # failing.
+    if !@checker.check(@http_client.fetch(url)) 
       @alerter.alert
     end
   end
