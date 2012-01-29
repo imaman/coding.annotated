@@ -37,7 +37,7 @@ describe "website babysitter" do
     checker.stub(:check).with(html).and_return(true)
     http_client = double("http_client", :fetch => html)
 
-    babysitter = Babysitter.new checker, http_client
+    babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
     babysitter.run "SOME-URL"
   end
 
@@ -56,13 +56,13 @@ describe "website babysitter" do
     alerter = double("alerter")
     alerter.should_receive(:alert)
 
-    babysitter = Babysitter.new checker, http_client
+    babysitter = Babysitter.new checker, http_client, alerter
     babysitter.run "SOME-URL"
   end
 end
 
 class Babysitter
-  def initialize(checker, http_client)
+  def initialize(checker, http_client, alerter)
     @checker = checker
     @http_client = http_client
   end
