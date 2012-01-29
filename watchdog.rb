@@ -28,6 +28,17 @@ end
 # system. The core logic has a place (Checker) and we have a resonable interface
 # for this object. It is now time to tie the things together.
 
+# -> Decided to make the system evolve.
+
+describe "website babysitter" do
+  it "fetches html content and passes it to the checker" do
+    checker = stub("checker")
+    http_clinet = stub("http_client")
+    babysitter = Babysitter.new(checker, http_client)
+    babysitter.run
+  end
+end
+
 class Checker
   # I don't like this attr_accessor too much. I'd rather pass it as a parameter
   # to the ctor (an 'options' hash or something). However, this may be
