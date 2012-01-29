@@ -36,9 +36,29 @@ describe "website babysitter" do
     checker = double("checker")
     checker.stub(:check).with(html).and_return(true)
     http_client = double("http_client", :fetch => html)
+
     babysitter = Babysitter.new checker, http_client
     babysitter.run "SOME-URL"
- end
+  end
+
+  # So the checker returns true/false to the babysitter. Should the babysitter
+  # pass this value to the "alerter" object (and let the alerter decide whether
+  # an alert should be fired)? Or - otherwise - the babysitter will examine the
+  # result returned from the checker and call alerter.alert() if its false. 
+  #
+  # These is a design decision which pertains to the boundary of
+  # responsibilities between the objects. As babysitter seems to be a fairly
+  # simple object, I prefer to put this responsibility in his hands.
+  it "fires notification if check failed" do
+    checker = double("checker")
+    checker.stub(:check).and_return(true)
+    http_client = double("http_client").as_null_object
+    alerter = double("alerter")
+    alerter.should_receive(:alert)
+
+    babysitter = Babysitter.new checker, http_client
+    babysitter.run "SOME-URL"
+  end
 end
 
 class Babysitter
