@@ -36,23 +36,20 @@ describe "website babysitter" do
     checker = double("checker")
     checker.stub(:check).with(html).and_return(true)
     http_client = double("http_client", :fetch => html)
-    #babysitter = Babysitter.new(checker, http_client)
-    #babysitter.run
+    babysitter = Babysitter.new checker, http_client
+    babysitter.run "SOME-URL"
+ end
+end
 
-    # Two issues on my mind:
-    # (a) what are the method names that should be invoked (I need these names
-    # for stubbing, and for setting expectation. I don't remember these names. I
-    # can overcome that by coding the impl. here and extract it to the app. code
-    # later.
-    #
-    # (b) Should I add call to the "Aleter" (temp. name) that will fire an
-    # e-mail if the check failed? I decided to defer this to a later test. This
-    # test will focus on fetching html and checking it.
-    
+class Babysitter
+  def initialize(checker, http_client)
+    @checker = checker
+    @http_client = http_client
+  end
 
-    url = "SOME-URL"
-    checker.check(http_client.fetch(url))
-   end
+  def run(url)
+    @checker.check(@http_client.fetch(url))
+  end
 end
 
 class Checker
