@@ -68,6 +68,14 @@ describe "website babysitter" do
     babysitter = Babysitter.new checker, http_client, double("alerter")
     babysitter.run "SOME-URL"
   end
+
+  # The recent confusion with the stubbed value checker.check (and a similar
+  # mixup with the if at Babysitter.run (I initially did alerter.alert if
+  # @checker... - missed the negation) made me think that a boolean value is not
+  # a good fit. We (humans) are conditioned to associate an action with a truth
+  # value. Here we use true to say "passed the check" - which makes sense (b/c
+  # we also associate truth with "good"). The solution is to use dedicated
+  # values: ":ok", ":bad"
 end
 
 class Babysitter
