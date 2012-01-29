@@ -149,8 +149,9 @@ class Babysitter
 
   def run(url)
     # changing the code such that it works with symbols (rather than booleans)
-   
-    if @checker.check(@http_client.fetch(url)) == :bad
+  
+    # Intentionally breaking the URL-passing logic.
+    if @checker.check(@http_client.fetch(url + "____some_other_suffix")) == :bad
       @alerter.alert
     end
   end
