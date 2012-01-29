@@ -68,6 +68,13 @@ end
 
 describe "babysitter system" do
   it "works end to end" do
+    # although it is end-to-end we can't do much with alerter and http_client -
+    # both of them talk to external world and we need somehow to fake them (we
+    # do not want the test to send a real e-mail) thus we do have stubbing even
+    # in this end-to-end test. Actually, the code is quite simple so other than
+    # these two classes, the only one that is really "our code" (not wrapper
+    # around external services) is Checker. Indeed, we do instantiate this class
+    # and use its "real" implementation.
     alerter = double("alerter")
     alerter.should_receive(:alert)
     http_client = double("http_client", :fetch => "broken html")
@@ -85,6 +92,9 @@ class Babysitter
   end
 
   def run(url)
+    # Something to think about: do I want to enforce the use of :ok/:bad?
+    # currently it recognized :bad and everything other than :bad is considered
+    # to 'ok'.
     if @checker.check(@http_client.fetch(url)) == :bad
       @alerter.alert
     end
