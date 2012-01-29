@@ -5,7 +5,7 @@ describe "inspection of html" do
   end
   it "succeeds if size is above threshold" do
     c = Checker.new [ :check_length ]
-    c.check("a"*1000).should == true 
+    c.check("a"*1000).should == :ok
   end
   it "allows the size threshold to be changed" do
     c = Checker.new [ :check_length ]
@@ -19,7 +19,7 @@ describe "inspection of html" do
   end
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
     c = Checker.new [ :check_content ]
-    c.check("NEW DESIGN STARTS HERE").should == true 
+    c.check("NEW DESIGN STARTS HERE").should == :ok
   end
 end
 
