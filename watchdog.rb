@@ -51,7 +51,7 @@ describe "website babysitter" do
   # simple object, I prefer to put this responsibility in his hands.
   it "fires notification if check failed" do
     checker = double("checker")
-    checker.stub(:check).and_return(true)
+    checker.stub(:check).and_return(false)
     http_client = double("http_client").as_null_object
     alerter = double("alerter")
     alerter.should_receive(:alert)
