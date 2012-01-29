@@ -53,7 +53,12 @@ describe "website babysitter" do
     html = double("html")
     checker = double("checker").as_null_object
     http_client = double("http_client")
-    http_client.stub(:fetch).with("SOME-URL__________not_the_correct_value").and_return("")
+    # changing the assertion back to its 'correct value' after verifying that I
+    # did get the error message that I wanted:
+    #        Double "http_client" received :fetch with unexpected arguments
+    #                 expected: ("SOME-URL__________not_the_correct_value")
+    #                               got: ("SOME-URL")
+    http_client.stub(:fetch).with("SOME-URL").and_return("")
 
     babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
     babysitter.run "SOME-URL"
