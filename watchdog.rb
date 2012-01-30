@@ -2,7 +2,7 @@ require 'rubygems'
 require 'net/http'
 require 'uri'
 require 'twitter'
-require 'twitter_setup_production'
+require 'setup'
 
 class Babysitter
   def initialize(checker, http_client, alerter)
