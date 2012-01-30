@@ -51,8 +51,9 @@ describe "website babysitter" do
   it "fetches html content and passes it to the checker(*)" do
     checker = double("checker")
 
-    http_client = double("http_client", :fetch => "html")
-    checker.should_receive(:check).with("html").and_return(true)
+    http_client = double("http_client", :fetch => "HTML-THAT-WAS-FETCHED")
+    checker.should_receive(:check).with("HTML-THAT-WAS-FETCHED").
+      and_return(true)
 
     Babysitter.new(checker, http_client, double().as_null_object).run ""
   end
