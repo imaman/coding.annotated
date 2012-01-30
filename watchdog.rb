@@ -38,8 +38,8 @@ describe "website babysitter" do
     checker = double("checker")
 
     html = double("html")
-    checker.should_receive(:check).with(html).and_return(true)
     http_client = double("http_client", :fetch => html)
+    checker.should_receive(:check).with(html).and_return(true)
 
     babysitter = Babysitter.new checker, http_client, double().as_null_object
     babysitter.run ""
