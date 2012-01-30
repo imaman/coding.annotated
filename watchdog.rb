@@ -28,12 +28,14 @@ describe "website babysitter" do
   # This also needs work: use .should_receive(), omit unneeded literals, named
   # doubles, etc.
   it "passes the URL to the fetcher" do
-    checker = double("checker").as_null_object
     http_client = double("http_client")
-    http_client.stub(:fetch).with("SOME-URL").and_return("")
+    # Changed to should_receive - will make the test fail if the call is not
+    # made.
+    http_client.should_receive(:fetch).with("SOME-URL").and_return("")
 
-    babysitter = Babysitter.new checker, http_client, double().as_null_object
-    babysitter.run "SOME-URL"
+    # Omitted temp. variable, inlined checker (null object).
+    Babysitter.new(double().as_null_object, http_client, double().as_null_object).
+      run "SOME-URL"
   end
 
   it "fetches html content and passes it to the checker(*)" do
