@@ -17,6 +17,7 @@ describe "inspection of html" do
     c = Checker.new [ :check_content ]
     c.check("NEW DESIGN STARTS HER").should == :bad
   end
+
   it "succeeds if html contains NEW DESIGN STARTS HERE" do
     c = Checker.new [ :check_content ]
     c.check("NEW DESIGN STARTS HERE").should == :ok
@@ -113,7 +114,23 @@ class Babysitter
     # Something to think about: do I want to enforce the use of :ok/:bad?
     # currently it recognized :bad and everything other than :bad is considered
     # to 'ok'.
-    if @checker.check(@http_client.fetch(url)) == :bad
+    
+    # One may argue that one needs to enfroce .check() to return either
+    # :ok or :bad because the code below will treat :badd (a typo-induced bug in
+    # Checker) as if it were :ok. However, when you intentionally such a bug and
+    # run the tests you get the following
+    #   1) inspection of html fails if html does not contain NEW DESIGN STARTS
+    #   HERE
+    #        Failure/Error: c.check("NEW DESIGN STARTS HER").should == :bad
+    #               expected: :bad
+    #                           got: :badd (using ==)
+    # Conclusion: the said enforcement is carreid out by the tests and not by
+    # the app. code. If we want to be extra careful we can add such a runtime
+    # assertion (will protect against other checker classes which are wired into
+    # a Babysitter object) but that's not strcitly necessary at the current
+    # context. Moreover, one may even argue that such a check is a DRY vilation
+    # as it spreads the checking of the legal values across multiple locations.
+   if @checker.check(@http_client.fetch(url)) == :bad
       @alerter.alert
     end
   end
