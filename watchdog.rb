@@ -34,20 +34,7 @@ describe "website babysitter" do
     babysitter.run "SOME-URL"
   end
 
-  it "fetches html content and passes it to the checker" do
-    checker = double("checker")
-
-    html = double("html")
-    http_client = double("http_client", :fetch => html)
-    checker.should_receive(:check).with(html).and_return(true)
-
-    Babysitter.new(checker, http_client, double().as_null_object).run ""
-  end
-
-  # Same as above test except that the html was inlined (and changed to a string
-  # literal). Reduces number of pieces in the puzzle + (IMHO) string literals
-  # are easier to read - the eye is drawn to them when reading the code while
-  # variables sort of fade into the background. 
+  # That's better version. Keep it. Remove the one it originated from.
   it "fetches html content and passes it to the checker(*)" do
     checker = double("checker")
 
