@@ -25,15 +25,10 @@ describe "inspection of html" do
 end
 
 describe "website babysitter" do
-  # This also needs work: use .should_receive(), omit unneeded literals, named
-  # doubles, etc.
   it "passes the URL to the fetcher" do
     http_client = double("http_client")
-    # Changed to should_receive - will make the test fail if the call is not
-    # made.
     http_client.should_receive(:fetch).with("SOME-URL").and_return("")
 
-    # Omitted temp. variable, inlined checker (null object).
     Babysitter.new(double().as_null_object, http_client, double().as_null_object).
       run "SOME-URL"
   end
