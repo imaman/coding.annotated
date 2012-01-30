@@ -79,7 +79,7 @@ describe "website babysitter" do
     # 
     # Note the "Dobule received" vs. "Double "alerter" received". The latter is
     # easier to read.
-   babysitter = Babysitter.new checker, http_client, double("alerter")
+    babysitter = Babysitter.new checker, http_client, double("alerter")
     babysitter.run ""
   end
 end
