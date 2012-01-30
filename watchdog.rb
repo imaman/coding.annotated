@@ -61,40 +61,14 @@ describe "website babysitter" do
     checker.stub(:check).and_return(:ok)
     http_client = double("http_client").as_null_object
 
-    # Here I do *not* want to change the alerter to null_object!
-    # This test asserts that nothing is called on alerter. If it were a null
-    # object the test would not fail. That's the reason why it is named. If 
-    # this were unnamed the error message produced by this code is:
-    #   1) website babysitter does not fire a notification if check succeeds
-    #        Failure/Error: @alerter.alert
-    #               Double received unexpected message :alert with (no args)
-    #                    # ./watchdog.rb:105:in `run'
-    #                         # ./watchdog.rb:69
-    # OTOH, when this double is named we get
-    #   1) website babysitter does not fire a notification if check succeeds
-    #        Failure/Error: @alerter.alert
-    #               Double "alerter" received unexpected message :alert with (no
-    #               args)
-    #                    # ./watchdog.rb:109:in `run'
-    #                         # ./watchdog.rb:73
-    # 
-    # Note the "Dobule received" vs. "Double "alerter" received". The latter is
-    # easier to read.
-    babysitter = Babysitter.new checker, http_client, double("alerter")
+   babysitter = Babysitter.new checker, http_client, double("alerter")
     babysitter.run ""
   end
 end
 
 describe "babysitter system" do
   it "works end to end" do
-    # although it is end-to-end we can't do much with alerter and http_client -
-    # both of them talk to external world and we need somehow to fake them (we
-    # do not want the test to send a real e-mail) thus we do have stubbing even
-    # in this end-to-end test. Actually, the code is quite simple so other than
-    # these two classes, the only one that is really "our code" (not wrapper
-    # around external services) is Checker. Indeed, we do instantiate this class
-    # and use its "real" implementation.
-    alerter = double("alerter")
+   alerter = double("alerter")
     alerter.should_receive(:alert)
     http_client = double("http_client", :fetch => "")
 
@@ -111,26 +85,7 @@ class Babysitter
   end
 
   def run(url)
-    # Something to think about: do I want to enforce the use of :ok/:bad?
-    # currently it recognized :bad and everything other than :bad is considered
-    # to 'ok'.
-    
-    # One may argue that one needs to enfroce .check() to return either
-    # :ok or :bad because the code below will treat :badd (a typo-induced bug in
-    # Checker) as if it were :ok. However, when you intentionally such a bug and
-    # run the tests you get the following
-    #   1) inspection of html fails if html does not contain NEW DESIGN STARTS
-    #   HERE
-    #        Failure/Error: c.check("NEW DESIGN STARTS HER").should == :bad
-    #               expected: :bad
-    #                           got: :badd (using ==)
-    # Conclusion: the said enforcement is carreid out by the tests and not by
-    # the app. code. If we want to be extra careful we can add such a runtime
-    # assertion (will protect against other checker classes which are wired into
-    # a Babysitter object) but that's not strcitly necessary at the current
-    # context. Moreover, one may even argue that such a check is a DRY vilation
-    # as it spreads the checking of the legal values across multiple locations.
-   if @checker.check(@http_client.fetch(url)) == :bad
+  if @checker.check(@http_client.fetch(url)) == :bad
       @alerter.alert
     end
   end
