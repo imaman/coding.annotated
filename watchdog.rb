@@ -34,6 +34,11 @@ describe "website babysitter" do
     babysitter.run "SOME-URL"
   end
 
+  # This test's title says "passes it to the checker" but it does not strictly
+  # verifies this. If the call to .check() from Babysitter's run() method is removed  
+  # this test does *not* fail. The tests that do fail are:
+  #   1) website babysitter fires notification if check failed
+  #   2) babysitter system works end to end
   it "fetches html content and passes it to the checker" do
     html = double("html")
     checker = double("checker")
@@ -87,9 +92,10 @@ class Babysitter
   end
 
   def run(url)
-  if @checker.check(@http_client.fetch(url)) == :bad
-      @alerter.alert
-    end
+    @http_client.fetch(url)
+    #if @checker.check("") == :bad
+      #@alerter.alert
+    #end
   end
 end
 
