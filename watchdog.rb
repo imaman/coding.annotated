@@ -41,7 +41,7 @@ describe "website babysitter" do
     http_client = double("http_client", :fetch => html)
 
     babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
-    babysitter.run "SOME-URL"
+    babysitter.run ""
   end
 
   it "fires notification if check failed" do
@@ -53,7 +53,7 @@ describe "website babysitter" do
     alerter.should_receive(:alert)
 
     babysitter = Babysitter.new checker, http_client, alerter
-    babysitter.run "SOME-URL"
+    babysitter.run ""
   end
   it "does not fire a notification if check succeeds" do
     checker = double("checker")
@@ -62,7 +62,7 @@ describe "website babysitter" do
     alerter = double("alerter")
 
     babysitter = Babysitter.new checker, http_client, double("alerter")
-    babysitter.run "SOME-URL"
+    babysitter.run ""
   end
 end
 
@@ -80,7 +80,7 @@ describe "babysitter system" do
     http_client = double("http_client", :fetch => "broken html")
 
     babysitter = Babysitter.new(Checker.new([ :check_length ]), http_client, alerter)
-    babysitter.run "SOME-URL"
+    babysitter.run ""
   end
 end
 
