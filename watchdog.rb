@@ -34,13 +34,10 @@ describe "website babysitter" do
     babysitter.run "SOME-URL"
   end
 
-  # That's better version. Keep it. Remove the one it originated from.
   it "fetches html content and passes it to the checker(*)" do
     checker = double("checker")
 
     http_client = double("http_client", :fetch => "HTML-THAT-WAS-FETCHED")
-    # We don't really need the and_return() - this test is neutral to .check()'s
-    # return value.
     checker.should_receive(:check).with("HTML-THAT-WAS-FETCHED")
 
     Babysitter.new(checker, http_client, double().as_null_object).run ""
