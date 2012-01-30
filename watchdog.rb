@@ -24,8 +24,7 @@ describe "inspection of html" do
 end
 
 describe "website babysitter" do
- it "passes the URL to the fetcher" do
-    html = double("html")
+  it "passes the URL to the fetcher" do
     checker = double("checker").as_null_object
     http_client = double("http_client")
     http_client.stub(:fetch).with("SOME-URL").and_return("")
@@ -55,6 +54,7 @@ describe "website babysitter" do
     babysitter = Babysitter.new checker, http_client, alerter
     babysitter.run ""
   end
+
   it "does not fire a notification if check succeeds" do
     checker = double("checker")
     checker.stub(:check).and_return(:ok)
@@ -77,7 +77,7 @@ describe "babysitter system" do
     # and use its "real" implementation.
     alerter = double("alerter")
     alerter.should_receive(:alert)
-    http_client = double("http_client", :fetch => "broken html")
+    http_client = double("http_client", :fetch => "")
 
     babysitter = Babysitter.new(Checker.new([ :check_length ]), http_client, alerter)
     babysitter.run ""
