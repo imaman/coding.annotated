@@ -39,8 +39,9 @@ describe "website babysitter" do
     checker = double("checker")
 
     http_client = double("http_client", :fetch => "HTML-THAT-WAS-FETCHED")
-    checker.should_receive(:check).with("HTML-THAT-WAS-FETCHED").
-      and_return(true)
+    # We don't really need the and_return() - this test is neutral to .check()'s
+    # return value.
+    checker.should_receive(:check).with("HTML-THAT-WAS-FETCHED")
 
     Babysitter.new(checker, http_client, double().as_null_object).run ""
   end
