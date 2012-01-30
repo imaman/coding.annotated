@@ -25,6 +25,8 @@ describe "inspection of html" do
 end
 
 describe "website babysitter" do
+  # This also needs work: use .should_receive(), omit unneeded literals, named
+  # doubles, etc.
   it "passes the URL to the fetcher" do
     checker = double("checker").as_null_object
     http_client = double("http_client")
