@@ -77,6 +77,8 @@ describe "babysitter system" do
   end
 end
 
+# Just a quick note: at this point this file is 114 LOC. Testing code is 80 LOC.
+# so we're speaking about a test:app ratio of 80:34 (test are 70% of the code).
 class Babysitter
   def initialize(checker, http_client, alerter)
     @checker = checker
