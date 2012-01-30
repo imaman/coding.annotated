@@ -29,8 +29,9 @@ describe "website babysitter" do
     http_client = double("http_client")
     http_client.should_receive(:fetch).with("SOME-URL").and_return("")
 
-    Babysitter.new(double().as_null_object, http_client, double().as_null_object).
-      run "SOME-URL"
+    # Extract null object into local variable 'null'
+    null = double().as_null_object  
+    Babysitter.new(null, http_client, null).run "SOME-URL"
   end
 
   it "fetches html content and passes it to the checker(*)" do
