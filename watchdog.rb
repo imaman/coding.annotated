@@ -29,7 +29,6 @@ describe "website babysitter" do
     http_client = double("http_client")
     http_client.should_receive(:fetch).with("SOME-URL").and_return("")
 
-    # Extract null object into local variable 'null'
     null = double().as_null_object  
     Babysitter.new(null, http_client, null).run "SOME-URL"
   end
