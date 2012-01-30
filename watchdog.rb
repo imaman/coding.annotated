@@ -26,10 +26,11 @@ end
 
 describe "website babysitter" do
   it "passes the URL to the fetcher" do
+    null = double().as_null_object  
+
     http_client = double("http_client")
     http_client.should_receive(:fetch).with("SOME-URL").and_return("")
 
-    null = double().as_null_object  
     Babysitter.new(null, http_client, null).run "SOME-URL"
   end
 
