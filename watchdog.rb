@@ -29,7 +29,7 @@ describe "website babysitter" do
     http_client = double("http_client")
     http_client.stub(:fetch).with("SOME-URL").and_return("")
 
-    babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
+    babysitter = Babysitter.new checker, http_client, double().as_null_object
     babysitter.run "SOME-URL"
   end
 
@@ -39,7 +39,7 @@ describe "website babysitter" do
     checker.stub(:check).with(html).and_return(true)
     http_client = double("http_client", :fetch => html)
 
-    babysitter = Babysitter.new checker, http_client, double("alerter").as_null_object
+    babysitter = Babysitter.new checker, http_client, double().as_null_object
     babysitter.run ""
   end
 
