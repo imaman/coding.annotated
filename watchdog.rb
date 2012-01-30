@@ -92,10 +92,9 @@ class Babysitter
   end
 
   def run(url)
-    @http_client.fetch(url)
-    #if @checker.check("") == :bad
-      #@alerter.alert
-    #end
+    if @checker.check(@http_client.fetch(url)) == :bad
+      @alerter.alert
+    end
   end
 end
 
