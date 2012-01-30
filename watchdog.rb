@@ -41,8 +41,7 @@ describe "website babysitter" do
     http_client = double("http_client", :fetch => html)
     checker.should_receive(:check).with(html).and_return(true)
 
-    babysitter = Babysitter.new checker, http_client, double().as_null_object
-    babysitter.run ""
+    Babysitter.new(checker, http_client, double().as_null_object).run ""
   end
 
   it "fires notification if check failed" do
