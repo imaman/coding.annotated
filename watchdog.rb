@@ -60,7 +60,26 @@ describe "website babysitter" do
     checker.stub(:check).and_return(:ok)
     http_client = double("http_client").as_null_object
 
-    babysitter = Babysitter.new checker, http_client, double("alerter")
+    # Here I do *not* want to change the alerter to null_object!
+    # This test asserts that nothing is called on alerter. If it were a null
+    # object the test would not fail. That's the reason why it is named. If 
+    # this were unnamed the error message produced by this code is:
+    #   1) website babysitter does not fire a notification if check succeeds
+    #        Failure/Error: @alerter.alert
+    #               Double received unexpected message :alert with (no args)
+    #                    # ./watchdog.rb:105:in `run'
+    #                         # ./watchdog.rb:69
+    # OTOH, when this double is named we get
+    #   1) website babysitter does not fire a notification if check succeeds
+    #        Failure/Error: @alerter.alert
+    #               Double "alerter" received unexpected message :alert with (no
+    #               args)
+    #                    # ./watchdog.rb:109:in `run'
+    #                         # ./watchdog.rb:73
+    # 
+    # Note the "Dobule received" vs. "Double "alerter" received". The latter is
+    # easier to read.
+   babysitter = Babysitter.new checker, http_client, double("alerter")
     babysitter.run ""
   end
 end
