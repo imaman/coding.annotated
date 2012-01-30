@@ -24,14 +24,27 @@ describe "inspection of html" do
   end
 end
 
+# Another way to rewrite the test method such to better express the data flow:
+#   (1) auxiliary stuff (not directly related to the assertion)
+#   (2) Initialization - two lines - the first defines a variable, the second
+#   uses it
+#   (3) Expectation + Assertion 
+#
+#   Each such section is separated from the others by a blank line.
+#
+#   This is still somewhat messy becuase both variables that are defined in
+#   section (2) are also used in section 3. The alternative is to remix and match to have two
+#   lines dealing with http_client and then one/two lines dealing with
+#   babysitter (see prvious commit). I thinks this is better.
 describe "website babysitter" do
   it "passes the URL to the fetcher" do
     null = double().as_null_object  
 
     http_client = double("http_client")
-    http_client.should_receive(:fetch).with("SOME-URL").and_return("")
+    babysitter = Babysitter.new(null, http_client, null)
 
-    Babysitter.new(null, http_client, null).run "SOME-URL"
+    http_client.should_receive(:fetch).with("SOME-URL").and_return("")
+    babysitter.run "SOME-URL"
   end
 
   it "fetches html content and passes it to the checker(*)" do
