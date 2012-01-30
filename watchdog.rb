@@ -59,7 +59,6 @@ describe "website babysitter" do
     checker = double("checker")
     checker.stub(:check).and_return(:ok)
     http_client = double("http_client").as_null_object
-    alerter = double("alerter")
 
     babysitter = Babysitter.new checker, http_client, double("alerter")
     babysitter.run ""
